@@ -1,16 +1,21 @@
+.container {
+  width: 40%;
+  margin: auto;
+}
+
 .input-container {
   display: flex;
   margin: 12px auto;
   height: 50px;
-  width: 60%;
   border: 1px solid rgba(229, 231, 235, 50);
   align-items: center;
   justify-content: space-between;
   padding: 0px 10px;
 
-  &.empty {
+  &:focus-within {
     border: 1px solid green;
   }
+
 }
 
 .song-input {
@@ -23,7 +28,7 @@
 
 .input-cancel {
   /* background-color: #121212; */
-  color: red;
+  color: white;
   background: none;
   border: none;
 }
@@ -33,7 +38,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 60%;
   margin: auto;
 }
 

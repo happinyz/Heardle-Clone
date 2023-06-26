@@ -20,6 +20,8 @@ function Input({ submitAnswer }: IInput) {
   };
 
   const handleSubmit = () => {
+    document.getElementById("input")?.focus();
+
     if (value === "") {
       console.log("input is empty");
       return;
@@ -41,10 +43,11 @@ function Input({ submitAnswer }: IInput) {
   };
 
   return (
-    <div>
+    <div className="container">
       <div className={`input-container ${value === "" ? "" : "empty"}`}>
         <FontAwesomeIcon icon={faMagnifyingGlass} />
         <input
+          id="input"
           className="song-input"
           value={value}
           placeholder={PLACEHOLDER_TEXT}

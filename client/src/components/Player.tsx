@@ -1,40 +1,57 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
+import { faCirclePlay } from "@fortawesome/free-regular-svg-icons";
 
 import "../styles/Player.scss";
 
-const INTERVALS = [1, 2, 3, 6, 10, 15];
-
 interface IPlayer {
-  streamUrl: string;
+  songUrl: string;
+  currentGuess: number;
 }
-const Player = ({ streamUrl }: IPlayer) => {
+const Player = ({ songUrl, currentGuess }: IPlayer) => {
+  const INTERVALS = [1500, 2500, 4500, 7500, 11500, 16500];
+
   const [audio, setAudio] = useState<HTMLAudioElement>();
-  const [totalTime, setTotalTime] = useState<number>(1900);
   const [currentTime, setCurrentTime] = useState<number>(0);
 
+  useEffect(() => {
+    const newAudio = new Audio(songUrl);
+    newAudio.addEventListener("timeupdate", () => {
+      setCurrentTime(Math.floor(newAudio.currentTime));
+    });
+    setAudio(newAudio);
+  }, [songUrl]);
+
+  const resetAudio = () => {
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  };
+
   const handleClick = () => {
-    if (!audio) {
-      const newAudio = new Audio(streamUrl);
-      setAudio(newAudio);
-      newAudio.play();
-    } else {
+    if (audio) {
       if (audio.paused) {
         audio.play();
+
+        setTimeout(() => {
+          resetAudio();
+        }, INTERVALS[currentGuess]);
       } else {
-        audio.pause();
+        resetAudio();
       }
     }
   };
 
+  console.log("TIME", currentTime);
+
   return (
     <div className="player-container">
-      <div>{totalTime}</div>
+      <div>{`0:${currentTime}`}</div>
       <button onClick={handleClick}>
-        <FontAwesomeIcon icon={faCirclePlay} size="3x" />
+        <FontAwesomeIcon icon={faCirclePlay} size="4x" inverse />
       </button>
-      <div>{currentTime}</div>
+      <div>0:16</div>
     </div>
   );
 };

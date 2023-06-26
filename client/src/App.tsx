@@ -6,8 +6,7 @@ import Header from "./components/Header";
 import { SongGuess } from "./types";
 
 function App() {
-  const [streamUrl, setStreamUrl] = useState<string>("");
-
+  const [songUrl, setsongUrl] = useState<string>("");
   const [answers, setAnswers] = useState<SongGuess[]>([]);
 
   const submitAnswer = (answer: SongGuess) => {
@@ -16,30 +15,27 @@ function App() {
       return;
     }
 
-    if (answer.skipped) {
-    }
-
     setAnswers([...answers, answer]);
   };
 
   console.log(answers.length);
   useEffect(() => {
-    async function getStreamUrl() {
+    async function getsongUrl() {
       const response = await fetch("http://localhost:5000/stream");
       const json = await response.json();
-      setStreamUrl(json.url);
+      setsongUrl(json.url);
       console.log(response);
     }
-    getStreamUrl();
+    getsongUrl();
   }, []);
 
-  console.log(streamUrl);
+  console.log(songUrl);
 
   return (
     <div>
       <Header />
       <AnswerGrid answers={answers} />
-      <Player streamUrl={streamUrl} />
+      <Player songUrl={songUrl} currentGuess={answers.length} />
       <Input submitAnswer={submitAnswer} />
     </div>
   );

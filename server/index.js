@@ -1,8 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 
-const request = require('request');
-
 const app = express();
 
 const PORT = 5000;
@@ -13,8 +11,8 @@ app.use(cors());
 
 app.get('/stream', (req, res) => {
   // request(URL, function(error, response, body) {
-  //   const streamUrl = JSON.parse(body).media.transcodings.filter(transcoding => transcoding.format.protocol === 'progressive')[0].url;
-  //   res.json({ url: streamUrl });
+  //   const songUrl = JSON.parse(body).media.transcodings.filter(transcoding => transcoding.format.protocol === 'progressive')[0].url;
+  //   res.json({ url: songUrl });
   // });
 
   res.json({ url: URL})
