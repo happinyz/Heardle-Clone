@@ -2,17 +2,35 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faX } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Input.scss";
+import { DisplayedSong, Song } from "../types";
+import Fuse from "fuse.js";
 
 const PLACEHOLDER_TEXT = "Know it? Search for the artist / title";
 
 interface IInput {
   submitAnswer: Function | any;
+  songsList: Song[];
 }
-function Input({ submitAnswer }: IInput) {
+function Input({ submitAnswer, songsList }: IInput) {
   const [value, setValue] = useState<string>("");
+  const [selectedSong, setSelectedSong] = useState<Song>({} as Song);
+  const [displayedSongs, setDisplayedSongs] = useState<Song[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const fuse = new Fuse(songsList, {
+    keys: ["title", "artists.name"],
+  });
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    const newValue = e.target.value;
+    if (newValue === "") {
+      setIsOpen(false);
+      setValue(newValue);
+      return;
+    }
+    setIsOpen(true);
+    filterSongs(newValue);
+    setValue(newValue);
   };
 
   const clearInput = () => {
@@ -27,11 +45,15 @@ function Input({ submitAnswer }: IInput) {
       return;
     }
 
-    const songGuess = {
-      title: value,
-    };
-    submitAnswer(songGuess);
+    submitAnswer(selectedSong);
     clearInput();
+  };
+
+  const handleMenuClick = (song: Song) => {
+    console.log(song);
+    setSelectedSong(song);
+    setValue(song.title);
+    setIsOpen(false);
   };
 
   const handleSkip = () => {
@@ -40,6 +62,17 @@ function Input({ submitAnswer }: IInput) {
     };
     submitAnswer(skippedGuess);
     clearInput();
+  };
+
+  const filterSongs = (input: string) => {
+    const filteredResults = fuse
+      .search(input, {
+        limit: 10,
+      })
+      .map((fuseItem) => {
+        return fuseItem.item;
+      });
+    setDisplayedSongs(filteredResults);
   };
 
   return (
@@ -53,6 +86,20 @@ function Input({ submitAnswer }: IInput) {
           placeholder={PLACEHOLDER_TEXT}
           onInput={handleInput}
         />
+        {isOpen && (
+          <div className="song-search-container">
+            {displayedSongs.map((song, index) => {
+              return (
+                <div
+                  className="song-search-cell"
+                  key={index}
+                  onClick={() => handleMenuClick(song)}>
+                  {song.title}
+                </div>
+              );
+            })}
+          </div>
+        )}
         <button className="input-cancel" onClick={clearInput}>
           <FontAwesomeIcon icon={faX}></FontAwesomeIcon>
         </button>

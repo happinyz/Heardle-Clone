@@ -43,8 +43,6 @@ const Player = ({ songUrl, currentGuess }: IPlayer) => {
     }
   };
 
-  console.log("TIME", currentTime);
-
   return (
     <div className="player-container">
       <div>{`0:${currentTime}`}</div>
