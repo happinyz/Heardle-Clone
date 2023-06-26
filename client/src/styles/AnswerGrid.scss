@@ -1,0 +1,20 @@
+.answer-grid {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.answer-cell {
+  border: 1px solid white;
+  width: 60%;
+  height: 40px;
+  margin: 6px;
+  &.correct {
+    background-color: green;
+  }
+  &.close {
+    background-color: yellow
+  }
+}
