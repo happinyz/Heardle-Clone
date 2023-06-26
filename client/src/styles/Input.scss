@@ -1,0 +1,54 @@
+.input-container {
+  display: flex;
+  margin: 12px auto;
+  height: 50px;
+  width: 60%;
+  border: 1px solid rgba(229, 231, 235, 50);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 10px;
+
+  &.empty {
+    border: 1px solid green;
+  }
+}
+
+.song-input {
+  width: 90%;
+  background-color: #121212;
+  border: 0px;
+  color: white;
+  outline: none;
+}
+
+.input-cancel {
+  /* background-color: #121212; */
+  color: red;
+  background: none;
+  border: none;
+}
+
+.panel-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 60%;
+  margin: auto;
+}
+
+.control-button {
+  border: none;
+  color: white;
+  height: 32px;
+  letter-spacing: 4px;
+  font-weight: bold;
+
+  &.skip {
+    background-color: gray
+  }
+
+  &.submit {
+    background-color: green;
+  }
+}
