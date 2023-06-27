@@ -79,27 +79,28 @@ function Input({ submitAnswer, songsList }: IInput) {
     <div className="container">
       <div className={`input-container ${value === "" ? "" : "empty"}`}>
         <FontAwesomeIcon icon={faMagnifyingGlass} />
+        {isOpen && (
+          <ul className="song-search-container">
+            {displayedSongs.map((song, index) => {
+              return (
+                <li
+                  className="song-search-cell"
+                  key={index}
+                  onClick={() => handleMenuClick(song)}>
+                  {`${song.title} - ${song.artists[0].name}`}
+                </li>
+              );
+            })}
+          </ul>
+        )}
         <input
           id="input"
           className="song-input"
           value={value}
           placeholder={PLACEHOLDER_TEXT}
           onInput={handleInput}
+          autoComplete="off"
         />
-        {isOpen && (
-          <div className="song-search-container">
-            {displayedSongs.map((song, index) => {
-              return (
-                <div
-                  className="song-search-cell"
-                  key={index}
-                  onClick={() => handleMenuClick(song)}>
-                  {song.title}
-                </div>
-              );
-            })}
-          </div>
-        )}
         <button className="input-cancel" onClick={clearInput}>
           <FontAwesomeIcon icon={faX}></FontAwesomeIcon>
         </button>

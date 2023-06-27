@@ -12,21 +12,25 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./styles/Header.scss";
+import "./styles/Player.scss";
+import "./styles/App.scss";
+import SpotifyEmbed from "./components/SpotifyEmbed";
 
 function App() {
   const [song, setSong] = useState<Song>({} as Song);
   const [answers, setAnswers] = useState<Song[]>([]);
   const [songsList, setSongsList] = useState<Song[]>([]);
-  const [isSolved, setIsSolved] = useState<boolean>(false);
+  const [gameStatus, setGameStatus] = useState<string>("");
 
   const submitAnswer = (answer: Song) => {
     if (answers.length >= 6) {
       console.log("Answer Grid full");
+      setGameStatus("lost");
       return;
     }
 
     if (checkAnswer(answer)) {
-      setIsSolved(true);
+      setGameStatus("won");
     }
 
     setAnswers([...answers, answer]);
@@ -54,17 +58,35 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="flex">
       <Header />
-      {isSolved ? (
+      {gameStatus !== "" ? (
         <>
-          <div>you win! pog</div>
+          <SpotifyEmbed trackId={song.id} />
+          <div>{`${
+            gameStatus === "won"
+              ? "You got it! pog!"
+              : "Better luck next time. sadge"
+          }`}</div>
+          <div className="guess-summary">
+            {answers.map((answer, index) => {
+              // @ts-ignore
+              const cellClass = answer.skipped
+                ? "skipped"
+                : checkAnswer(answer)
+                ? "correct"
+                : "incorrect";
+              return <div className={`guess-summary-cell ${cellClass}`}></div>;
+            })}
+          </div>
         </>
       ) : (
         <>
           <AnswerGrid answers={answers} />
-          <Player songUrl={song?.preview_url} currentGuess={answers.length} />
-          <Input submitAnswer={submitAnswer} songsList={songsList} />
+          <div className="footer-wrapper">
+            <Player songUrl={song?.preview_url} currentGuess={answers.length} />
+            <Input submitAnswer={submitAnswer} songsList={songsList} />
+          </div>
         </>
       )}
     </div>
