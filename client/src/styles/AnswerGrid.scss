@@ -7,15 +7,27 @@
   justify-content: center;
 }
 
+.answer-grid-text {
+  padding-top: 4px;
+  padding-left: 8px;
+}
+
 .answer-cell {
-  border: 1px solid white;
+  border: 1px solid #474545;
   width: 40%;
   height: 40px;
   margin: 6px;
+  
+  &.active {
+    border-color: #8a8787;
+  }
   &.correct {
     background-color: green;
   }
   &.close {
     background-color: yellow
+  }
+  &.skipped {
+    color: gray
   }
 }

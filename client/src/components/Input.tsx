@@ -23,6 +23,7 @@ function Input({ submitAnswer, songsList }: IInput) {
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
+    console.log(newValue);
     if (newValue === "") {
       setIsOpen(false);
       setValue(newValue);
@@ -35,6 +36,7 @@ function Input({ submitAnswer, songsList }: IInput) {
 
   const clearInput = () => {
     setValue("");
+    setIsOpen(false);
   };
 
   const handleSubmit = () => {
@@ -50,6 +52,7 @@ function Input({ submitAnswer, songsList }: IInput) {
   };
 
   const handleMenuClick = (song: Song) => {
+    console.log("what");
     console.log(song);
     setSelectedSong(song);
     setValue(song.title);
@@ -79,20 +82,6 @@ function Input({ submitAnswer, songsList }: IInput) {
     <div className="container">
       <div className={`input-container ${value === "" ? "" : "empty"}`}>
         <FontAwesomeIcon icon={faMagnifyingGlass} />
-        {isOpen && (
-          <ul className="song-search-container">
-            {displayedSongs.map((song, index) => {
-              return (
-                <li
-                  className="song-search-cell"
-                  key={index}
-                  onClick={() => handleMenuClick(song)}>
-                  {`${song.title} - ${song.artists[0].name}`}
-                </li>
-              );
-            })}
-          </ul>
-        )}
         <input
           id="input"
           className="song-input"
@@ -105,6 +94,20 @@ function Input({ submitAnswer, songsList }: IInput) {
           <FontAwesomeIcon icon={faX}></FontAwesomeIcon>
         </button>
       </div>
+      {isOpen && (
+        <div className="song-search-container">
+          {displayedSongs.map((song, index) => {
+            return (
+              <div
+                className="song-search-cell"
+                key={index}
+                onClick={() => handleMenuClick(song)}>
+                <span className="song-text">{`${song.title} - ${song.artists[0].name}`}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
       <div className="panel-container">
         <button className={"control-button skip"} onClick={handleSkip}>
           SKIP

@@ -11,12 +11,20 @@ const AnswerGrid = ({ answers }: IAnswerGrid) => {
 
   const generateGrid = () => {
     return [...Array(6)].map((_, i) => {
-      const selector = "answer-cell";
+      var selector = `answer-cell ${i === answers.length ? "active" : ""}`;
       const currAnswer = answers.at(i);
 
-      const text = currAnswer?.skipped ? "SKIPPED" : currAnswer?.title;
-
-      return <div className={selector}>{text}</div>;
+      var text = currAnswer?.title;
+      if (currAnswer?.skipped) {
+        text = "SKIPPED";
+        selector += " skipped";
+      }
+      console.log(text);
+      return (
+        <div className={selector}>
+          <span className="answer-grid-text">{text}</span>
+        </div>
+      );
     });
   };
 

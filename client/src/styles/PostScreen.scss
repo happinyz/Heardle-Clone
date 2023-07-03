@@ -1,0 +1,24 @@
+
+.guess-summary {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.guess-summary-cell {
+  width: 1rem;
+  height: 0.25rem;
+  margin: 0.125rem;
+  
+  &.skipped {
+    background-color: #444;
+  }
+
+  &.incorrect {
+    background-color: red;
+  }
+
+  &.correct {
+    background-color: green
+  }
+}

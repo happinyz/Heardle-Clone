@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "../styles/SpotifyEmbed.scss";
 
 interface ISpotifyEmbed {
   trackId: string;
@@ -31,9 +32,7 @@ const SpotifyEmbed = ({ trackId }: ISpotifyEmbed) => {
       var button: HTMLElement = document.querySelector(
         '[aria-label="Play"]'
       ) as HTMLElement;
-      console.log("button", button);
       if (button) {
-        console.log("swag");
         button.click();
       }
     }

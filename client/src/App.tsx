@@ -15,6 +15,7 @@ import "./styles/Header.scss";
 import "./styles/Player.scss";
 import "./styles/App.scss";
 import SpotifyEmbed from "./components/SpotifyEmbed";
+import PostScreen from "./components/PostScreen";
 
 function App() {
   const [song, setSong] = useState<Song>({} as Song);
@@ -61,25 +62,11 @@ function App() {
     <div className="flex">
       <Header />
       {gameStatus !== "" ? (
-        <>
-          <SpotifyEmbed trackId={song.id} />
-          <div>{`${
-            gameStatus === "won"
-              ? "You got it! pog!"
-              : "Better luck next time. sadge"
-          }`}</div>
-          <div className="guess-summary">
-            {answers.map((answer, index) => {
-              // @ts-ignore
-              const cellClass = answer.skipped
-                ? "skipped"
-                : checkAnswer(answer)
-                ? "correct"
-                : "incorrect";
-              return <div className={`guess-summary-cell ${cellClass}`}></div>;
-            })}
-          </div>
-        </>
+        <PostScreen
+          isVictory={gameStatus === "won"}
+          answers={answers}
+          song={song}
+        />
       ) : (
         <>
           <AnswerGrid answers={answers} />
@@ -104,7 +91,7 @@ const Header = () => {
           <FontAwesomeIcon icon={faHeart} size="2x" color="white" />
         </button>
       </div>
-      <div>Alvin heardle</div>
+      <div>Alvin Heardle</div>
       <div>
         <button>
           <FontAwesomeIcon icon={faChartSimple} size="2x" color="white" />
