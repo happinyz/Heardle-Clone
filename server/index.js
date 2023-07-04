@@ -8,7 +8,8 @@ const app = express();
 
 const PORT = 5000;
 
-var songs = JSON.parse(fs.readFileSync('./songs/songs.json', 'utf8'));
+const songsDirectory = path.join(process.cwd(), 'songs');
+var songs = JSON.parse(fs.readFileSync(songsDirectory + '/songs.json', 'utf8'));
 
 const getRandomSong = () => {
   const numSongs = songs.length;
